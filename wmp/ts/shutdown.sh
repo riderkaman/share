@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "./setenv.sh"
+. "setenv.sh"
 
 if [ -f $SERVER_NAME.pid ] ; then
 	echo "Stop $SERVER_NAME..."
