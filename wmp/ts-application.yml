@@ -1,0 +1,48 @@
+ts:
+  name: ts-1
+  ip: 10.105.253.12
+  tas:
+    port: 15000
+  web:
+    port: 8081
+  hazelcast:
+    port: 5701
+    group:
+      name: silvy
+      members: 
+
+database:
+  name: mysql 
+  #driverClassName: com.mysql.jdbc.Driver
+  #url: jdbc:mysql://10.105.253.13:3306/wmp?zeroDateTimeBehavior=convertToNull&useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+  driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  url: jdbc:log4jdbc:mysql://10.105.253.13:3306/wmp?zeroDateTimeBehavior=convertToNull&useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+  username: pbt
+  password: pbt123!@#
+  pool-init-size: 400
+  pool-max-size: 400
+
+ifs:
+  tapi:
+    ip: 117.52.82.89
+    port: 9999
+  push:
+    ip: 10.105.253.15
+    port: 39080
+    path: /ps/rest
+  document-viewer:
+    ip: 10.105.253.14
+    port: 12000
+  url-preview:
+    ip: 10.105.253.12
+    port: 30000
+  file:
+    public:
+      ip: wink.wemakepeople.com
+      port: 31000
+    private:
+      ip: wink.wemakepeople.com
+      port: 31000
+    dir:
+        base: /app/wmp/tmt/WebAdmin/webfiles
+  
