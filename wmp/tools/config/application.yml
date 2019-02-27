@@ -1,0 +1,30 @@
+database:
+  name: mssql
+#  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#  url: jdbc:sqlserver://10.1.3.132:1432;DatabaseName=GSC
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://10.1.3.35:3306/wmp?zeroDateTimeBehavior=convertToNull&useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+  username: pbt
+  password: pbt123!@#
+  pool-init-size: 1
+  pool-max-size: 2
+
+apns:
+  certPath:
+  certPassword:
+  modifier:
+
+cert:
+    ip: fcm.googleapis.com
+    port: 443
+
+ifs:
+  file:
+    public:
+      ip: wink.wemakepeople.com
+      port: 31000
+    dir:
+      base: /app/wmp/tmt/WebAdmin/webfiles
+      common-base: /tmt
+    path:
+      user-profile-image: /userProfile
