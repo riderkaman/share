@@ -1,0 +1,6 @@
+
+> cat access.log | sort-object -unique
+
+> netstat -na | findstr 1887 | measure-object -Line
+
+> get-content push.log -wait -tail 1
