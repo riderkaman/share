@@ -1,0 +1,178 @@
+[현재 연결 중인 connection 확인]
+
+SELECT S.SPID, S.LOGINAME, S.LOGIN_TIME, S.LAST_BATCH, C.CLIENT_NET_ADDRESS
+FROM sys.sysprocesses S, sys.dm_exec_connections C
+ WHERE S.spid = C.SESSION_ID
+
+[CPU 사용이 높은 쿼리 검색]
+
+ SELECT TOP 20
+  [Average CPU used] = total_worker_time / qs.execution_count
+ ,[Total CPU used] = total_worker_time
+ ,[Last CPU used] = last_worker_time
+ ,[MAX CPU used] = max_worker_time
+ ,[Execution count] = qs.execution_count
+ ,[Individual Query] = SUBSTRING (qt.text,qs.statement_start_offset/2,
+          (CASE WHEN qs.statement_end_offset = -1
+             THEN LEN(CONVERT(NVARCHAR(MAX), qt.text)) * 2
+           ELSE qs.statement_end_offset END - qs.statement_start_offset)/2)
+ ,[Parent Query] = qt.text
+ ,DatabaseName = DB_NAME(qt.dbid)
+ ,qs.creation_time
+ ,qs.last_execution_time
+ FROM sys.dm_exec_query_stats qs
+ CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) as qt
+ ORDER BY [Average CPU used] DESC;
+
+ [현재 실행중인 SQL]
+
+ SELECT      dm_ws.wait_duration_ms 실행대기시간,
+                                                                                               dm_ws.wait_type 대기형태,
+                                                                                               dm_es.status 실행상태,
+                                                                                               dm_t.TEXT 실행쿼리,
+                                                                                               dm_qp.query_plan 실행계획,
+                                                                                               dm_ws.session_ID 세션아이디,
+                                                                                               dm_es.cpu_time ,
+                                                                                               dm_es.memory_usage ,
+                                                                                               dm_es.logical_reads 논리적읽기,
+                                                                                               dm_es.total_elapsed_time 총실행시간,
+                                                                                               dm_es.program_name ,
+                                                                                               DB_NAME(dm_r.database_id) DB명,
+                                                                                               --Optional columns
+                                                                                               dm_ws.blocking_session_id blk,
+                                                                                               dm_r.wait_resource,
+                                                                                               dm_es.login_name,
+                                                                                               dm_r.command,
+                                                                                               dm_r.last_wait_type
+                                                                                   FROM        sys.dm_os_waiting_tasks dm_ws
+                                                                                   INNER JOIN   sys.dm_exec_requests dm_r
+                                                                                   ON          dm_ws.session_id = dm_r.session_id
+                                                                                   INNER JOIN   sys.dm_exec_sessions dm_es
+                                                                                   ON          dm_es.session_id = dm_r.session_id
+                                                                                   CROSS APPLY sys.dm_exec_sql_text ( dm_r.sql_handle ) dm_t
+                                                                                   CROSS APPLY sys.dm_exec_query_plan ( dm_r.plan_handle ) dm_qp
+                                                                                   WHERE       dm_es.is_user_process = 1  AND DB_NAME(dm_r.database_id) = 'TION_OSP'
+
+SELECT A.session_id
+       , text = ISNULL(ISNULL(CONVERT(VARCHAR(MAX), object_name(D.objectid, D.dbid)), D.text),'DBCC INPUTBUFFER(' + CONVERT(VARCHAR(10), A.session_id) + ')')
+       , D.objectid
+       , dbname = db_name(D.dbid)
+       , D.dbid
+       , A.status
+       , A.cpu_time
+       , A.memory_usage
+       , A.total_scheduled_time
+       , A.total_elapsed_time
+       , A.last_request_start_time
+       , A.last_request_end_time
+       , worker_time = DATEDIFF(SECOND, A.last_request_start_time, CASE WHEN A.status = 'running' THEN GETDATE() ELSE A.last_request_end_time END)
+       , completion_time = C.estimated_completion_time / 1000.0
+       , C.percent_complete
+       , A.reads
+       , A.writes
+       , A.logical_reads
+       , transaction_isolation_level = CASE A.transaction_isolation_level WHEN 0 THEN '0'
+                                                                        WHEN 1 THEN '1 - READ UNCOMMITTED'
+                                                                        WHEN 2 THEN '2 - READ COMMITTED'
+                                                                        WHEN 3 THEN '3 - REPEATABLE READ'
+                                                                        WHEN 4 THEN '4 - SERIALIZABLE'
+                                                                        WHEN 5 THEN '5 - SNAPSHOT' END
+       , A.lock_timeout
+       , A.deadlock_priority
+       , A.row_count
+       , A.prev_error
+       , B.num_reads
+       , B.num_writes
+       , B.last_read
+       , B.last_write
+       , B.net_packet_size
+       , C.command
+       , C.blocking_session_id
+       , C.wait_type
+       , C.wait_time
+       , C.last_wait_type
+       , C.wait_resource
+       , C.granted_query_memory
+       , A.host_name
+       , A.program_name
+       , A.client_interface_name
+       , A.login_name
+       , B.client_net_address
+  FROM sys.dm_exec_sessions A
+       LEFT OUTER JOIN sys.dm_exec_connections B ON A.session_id = B.session_id
+       LEFT OUTER JOIN sys.dm_exec_requests C ON A.session_id = C.session_id
+       OUTER APPLY sys.dm_exec_sql_text(B.most_recent_sql_handle) D
+ WHERE A.status = 'running'
+
+
+
+
+-- Lock 걸린 SPID 조회 (Mode 컬럼값이 X)
+EXEC sp_lock
+
+--Lock 걸린 SPID의 실행중인 쿼리 조회
+DBCC INPUTBUFFER ([SPID])
+
+--Lock을 유발하는 SPID Kill
+KILL [SPID]
+
+-- Lock으로 의심되는 SPID 조회
+SELECT p.status
+    ,p.program_name
+    ,p.hostname
+    ,p.spid
+    ,p.blocked
+    ,p.kpid
+    ,p.cpu
+    ,p.physical_io
+    ,p.waittype
+    ,p.waittime
+    ,p.lastwaittype
+    ,p.waitresource
+    ,p.dbid
+    ,p.uid
+    ,p.memusage
+    ,p.login_time
+    ,p.last_batch
+    ,p.ecid
+    ,p.open_tran
+    ,p.sid
+    ,p.hostprocess
+    ,p.cmd
+    ,p.nt_domain
+    ,p.nt_username
+    ,p.net_address
+    ,p.net_library
+    ,p.loginame
+    ,p.context_info
+    ,p.sql_handle
+    ,p.stmt_start
+    ,p.stmt_end
+FROM master..sysprocesses p
+WHERE (
+        STATUS LIKE 'run%'
+        OR waittime > 0
+        OR blocked <> 0
+        OR open_tran <> 0
+        OR EXISTS (
+            SELECT *
+            FROM master..sysprocesses p1
+            WHERE p.spid = p1.blocked
+                AND p1.spid <> p1.blocked
+            )
+        )
+    AND spid > 50
+    AND spid <> @@spid
+ORDER BY CASE
+        WHEN STATUS LIKE 'run%'
+            THEN 0
+        ELSE 1
+        END
+    ,waittime DESC
+    ,open_tran DESC
+
+
+
+
+
+
