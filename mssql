@@ -172,16 +172,40 @@ ORDER BY CASE
     ,open_tran DESC
 
 
-<insert id="insertMtrlOrderList" parameterType="java.util.Map">
-    <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
-     into FM_MATERIALS_ORDER_LIST(MTRL_ID, MTRL_ORDER_ID, 
-        MTRL_ENTERPRISE, UNIT_COST, MTRL_ORD_QUANTITY, APPLY_DATE)
-    values
-        (#{item.MTRL_ID}, #{item.MTRL_ORDER_ID}, 
-    #{item.MTRL_ENTERPRISE}, #{item.UNIT_COST}, 
-    #{item.MTRL_ORD_QUANTITY}, SYSDATE)
-    </foreach>
-</insert>
+INSERT INTO choco_table ( 
+                       number_id
+                     , public_id
+                     , div
+                     , create_date
+                     , create_id
+                 ) VALUES
+<foreach collection="list" item="item" index="index" separator=",">
+   (
+          #{item.number_id}
+        , #{item.public_id}                         
+        , #{item.div}                             
+        , NOW()
+        , #{item.create_id}
+   )
+</foreach>
+
+
+<foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+    INTO choco_table  ( 
+          number_id                     
+        , public_id
+        , div
+        , create_date
+        , create_id                 
+   ) VALUES(
+          #{item.number_id}                    
+        , #{item.public_id}                         
+        , #{item.div}                             
+        , SYSDATE
+        , #{item.create_id}
+   )
+</foreach>
+
 
 --------------------------------------------------------------------------------------------------
 Talk Server #1 Configuration
