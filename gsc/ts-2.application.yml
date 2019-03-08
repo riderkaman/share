@@ -1,0 +1,63 @@
+ts:
+  name: ts-1
+  ip: 203.245.89.117
+  tas:
+    port: 15000
+  web:
+    port: 8080
+
+database:
+  name: mssql
+  #driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  #url: jdbc:sqlserver://10.1.3.132:1432;DatabaseName=GSC
+  driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  url: jdbc:log4jdbc:sqlserver://10.10.30.21:1433;DatabaseName=MTALK
+  username: pbt
+  password: pbt123!@#
+  pool-init-size: 20
+  pool-max-size: 400
+
+hazelcast:
+  port: 5702
+  group:
+    name: silvy
+    members: 203.245.89.116:5701,203.245.89.117:5702
+
+logging:
+  config: config/logback-spring.xml
+
+push:
+  restful:
+    url: http://203.245.89.117:9093/ps/rest
+
+user:
+  login:
+    clscds: C1
+
+
+file:
+  base:
+    path: Z:/tmtdata
+    url: http://talk.gscaltex.co.kr:31000/
+  media:
+    url: http://211.169.241.133:31000/
+  w2p:
+    base:
+      path: Z:/tmtdata
+      url: http://talk.gscaltex.co.kr:30400
+
+tdv:
+  ip: 203.245.89.118
+  port: 12000
+  src:
+    url: http://211.169.241.133:31000/
+  url:
+    format: http://{0}:{1}/PDVService.aspx
+
+UrlPreview:
+  ConnUrl: http://203.245.89.117:30000/urlpreview/getUrlPreview?useCache=true&url=
+
+gsc:
+  sso:
+    url: http://sso.gscaltex.com/ssoclient/ADLoginAuth.asp
+    
