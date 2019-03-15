@@ -1,0 +1,17 @@
+UPDATE mPBT_TALK_LOGS
+                SET
+                        readUserIdnfr=REPLACE( (CONCAT(IFNULL(readUserIdnfr,''),',','1000756',',')),',,', ',')
+                        , readCnt=readCnt-1
+                WHERE (roomid=8493
+                        AND userIdnfr=1000945
+                        AND tId IN
+                         (
+                        1972230065
+                 ,
+                        1973077753
+                 )
+                AND IFNULL(readUserIdnfr,'') NOT LIKE CONCAT('%,','1000756',',%'))
+                OR
+                (roomid=8493 AND userIdnfr!='1000756'
+                AND regDate > NOW(3) - INTERVAL 30 DAY
+                AND IFNULL(readUserIdnfr,'') NOT LIKE CONCAT('%,','1000756',',%'))
