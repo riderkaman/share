@@ -1,1 +1,10 @@
-dd
+SELECT roomType, count(*)
+  FROM [MTALK].[pbt].[mPBT_P2P_Room_Info]
+  group by roomType
+
+--------------------------
+typeOnCreation	count
+--------------------------
+0	              2770
+50	            77
+2	              634
