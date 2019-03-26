@@ -1,6 +1,4 @@
-SELECT roomType, count(*)
-  FROM [MTALK].[pbt].[mPBT_P2P_Room_Info]
-  group by roomType
+[mPBT_P2P_Room_Info]
 
 --------------------------
 typeOnCreation	count
