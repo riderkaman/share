@@ -1,0 +1,29 @@
+[mPBT_P2P_Room_Info]
+
+id / creatorUserIdnfr / typeOnCreation / roomType / groupIdnfr / roomName / titleImg / leader / expireTime / firstCreationDate / lastUpdateDate
+
+--------------------------
+typeOnCreation	count
+--------------------------
+0	              2770
+50	            77
+2	              634
+
+--------------------------
+roomType	    count
+--------------------------
+3	              22
+50	            77
+30	            20
+10	            3362
+
+[mPBT_P2P_Room_Member_Info]
+
+roomId / userIdnfr / isInvited / firstCreationDate / lastUpdateDate / isLeaved
+
+[mPBT_BadgeCnt]
+
+userIdnfr / roomId / cnt
+
+
+
