@@ -26,4 +26,73 @@ roomId / userIdnfr / isInvited / firstCreationDate / lastUpdateDate / isLeaved
 userIdnfr / roomId / cnt
 
 
+-------------------------------------------------------------------------------------------
+2:  IF EXISTS( SELECT userIdnfr FROM pbt.mPBT_BadgeCnt(NOLOCK) WHERE userIdnfr = 13910 AND roomId = 3622 )
+		UPDATE pbt.mPBT_BadgeCnt WITH(ROWLOCK)
+		SET
+
+			cnt = 0
+
+		WHERE userIdnfr = 13910
+		AND roomId = 3622
+		ELSE
+		INSERT INTO pbt.mPBT_BadgeCnt WITH(ROWLOCK)
+		( userIdnfr, roomId , cnt )
+		VALUES ( 13910, 3622,
+
+			0
+
+		)
+3:  IF EXISTS( SELECT userIdnfr FROM pbt.mPBT_BadgeCnt(NOLOCK) WHERE userIdnfr = 13910 AND roomId = 3622 )
+		UPDATE pbt.mPBT_BadgeCnt WITH(ROWLOCK)
+		SET
+
+			cnt = 0
+
+		WHERE userIdnfr = 13910
+		AND roomId = 3622
+		ELSE
+		INSERT INTO pbt.mPBT_BadgeCnt WITH(ROWLOCK)
+		( userIdnfr, roomId , cnt )
+		VALUES ( 13910, 3622,
+
+			0
+
+		)
+ {FAILED after 807 msec}
+com.microsoft.sqlserver.jdbc.SQLServerException: 트랜잭션(프로세스 ID 926)이 잠금 리소스에서 다른 프로세스와의 교착 상태가 발생하여 실행이 중지되었습니다. 트랜잭션을 다시 실행하십시오.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:216)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1515)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatementBatch(SQLServerPreparedStatement.java:1299)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtBatchExecCmd.doExecute(SQLServerPreparedStatement.java:1209)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:5696)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:1715)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:180)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:155)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.executeBatch(SQLServerPreparedStatement.java:1173)
+	at net.sf.log4jdbc.sql.jdbcapi.StatementSpy.executeBatch(StatementSpy.java:571)
+	at sun.reflect.GeneratedMethodAccessor114.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.tomcat.jdbc.pool.StatementFacade$StatementProxy.invoke(StatementFacade.java:114)
+	at com.sun.proxy.$Proxy81.executeBatch(Unknown Source)
+	at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:122)
+	at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:129)
+	at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:122)
+	at org.apache.ibatis.executor.BaseExecutor.commit(BaseExecutor.java:242)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.commit(DefaultSqlSession.java:224)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.commit(DefaultSqlSession.java:218)
+	at org.mybatis.spring.SqlSessionUtils$SqlSessionSynchronization.beforeCommit(SqlSessionUtils.java:286)
+	at org.springframework.transaction.support.TransactionSynchronizationUtils.triggerBeforeCommit(TransactionSynchronizationUtils.java:95)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.triggerBeforeCommit(AbstractPlatformTransactionManager.java:936)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:748)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:734)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:518)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:292)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:671)
+	at com.happyhouse.servers.ts.service.CmBatchDBService$$EnhancerBySpringCGLIB$$b5406952.updateBadgeCnt(<generated>)
+	at com.happyhouse.servers.ts.service.CmBatchQueProcThreadService$ProcBadgeCntThread.run(CmBatchQueProcThreadService.java:1739)
+
 
