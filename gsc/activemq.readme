@@ -1,0 +1,5 @@
+There are three main ways to disable persistence, such as for unit testing JMS code
+
+Set the NON_PERSISTENT message delivery flag on your MessageProducer
+Set the persistent=false flag in the <broker/> element of the Xml Configuration or on the property BrokerService
+Delete the persistence files before running your tests (a bit hacky)
