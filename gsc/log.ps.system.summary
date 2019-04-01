@@ -157,3 +157,4 @@ ID:S1TALKMSG2-64973-1553941763851-2:2 tcp://203.245.89.117:64984 true false
 ID:S1TALKMSG2-64973-1553941763851-2:264 tcp://203.245.89.117:64975 true false 
 
 https://cwiki.apache.org/confluence/display/CAMEL/JMS
+http://activemq.apache.org/nms/msdoc/1.6.0/vs2005/Output/html/T_Apache_NMS_AcknowledgementMode.htm
