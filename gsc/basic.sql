@@ -6,7 +6,7 @@ SELECT userInfo.userIdnfr,
        deviceInfo.devceOsType,
        pmsPushkeyInfo.pcPushKey,
        ppsPushkeyInfo.UUID,
-       pushHistory.ID,
+       pushHistory.DEVICE_MSG_UUID,
        pushHistory.PPC_PUSH_STATUS,
        pushHistory.REG_DT,
        pushData.PAYLOAD
@@ -26,5 +26,5 @@ SELECT userInfo.userIdnfr,
   AND userInfo.regiStusDstcd = '10'
   AND deviceInfo.regiStusDstcd = '10'
   AND userInfo.name = '이승원'
-  AND deviceInfo.devceOsType in ('A','P')
+  AND deviceInfo.devceOsType in ('A')
   ORDER BY pushHistory.reg_dt DESC;
