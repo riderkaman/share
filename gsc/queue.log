@@ -1,0 +1,20 @@
+m-talk.gsc.ps-203.245.89.116:14000   0   149   35101   35101
+m-talk.gsc.ps-203.245.89.117:14000   0   104   26818   26818
+
+CREATE PROCEDURE [pps].[sp_getPpcItemListByPushKey]    @pageSize int,    @ppcPushKey varchar(100),    @pushDataValidPeriod numeric(18,0),    @lastDeviceId numeric(18,0) AS PRINT    @pageSize PRINT       @ppcPushKey PRINT       @pushDataValidPeriod  PRINT       @lastDeviceId SELECT    TOP (@pageSize)  -- TOP 1  DEVICE.id ,  DEVICE.SYSTEM_ID as systemId,  DATA.PUSH_GROUP_ID as pushGroupId,  DATA.PUSH_ID as pushDataId,  DEVICE.PUSH_DEVICE_ID as pushDeviceId,  DEVICE.MSG_UUID AS messageUuid,  DEVICE.DEVICE_MSG_UUID AS deviceMessageUuid,  DATA.PUSH_GROUP_KEY AS pushGroupKey,  DATA.PUSH_RECEIVER pushReceiver,  DEVICE.PPC_PUSH_KEY AS ppcPushKey,  DEVICE.PPC_SEND_YN AS toPpc,  DATA.PAYLOAD AS payload,  P.STATUS AS ppcPushStatus,  DATA.PPC_BROADCAST_ACT_NM ppcBroadcastAction,  DATA.PPC_APP_NM ppcApplicationName,  DATA.PPC_PACKAGE_NM ppcApplicationPackageName,  DATA.PPC_MODE AS ppcMode,  1 as inserted,  1 as ppcProgressInserted,  DATA.REG_DT AS firstCreationDate,  P.UPT_DT AS lastUpdateDate FROM pps.MPPS_PUSH_DATA DATA WITH (NOLOCK)     INNER JOIN pps.MPPS_PUSH_DEVICE DEVICE WITH (NOLOCK) ON DATA.SYSTEM_ID=DEVICE.SYSTEM_ID AND DATA.PUSH_ID= DEVICE.PUSH_ID      INNER JOIN pps.MPPS_PUSH_DEVICE_PROGRESS P WITH (NOLOCK) ON P.PUSH_TYPE = '01' AND DEVICE.DEVICE_MSG_UUID=P.DEVICE_MSG_UUID     --AND DEVICE.SYSTEM_ID=P.SYSTEM_ID AND DEVICE.PUSH_DEVICE_ID=P.PUSH_DEVICE_ID     LEFT OUTER JOIN pps.MPPS_PUSH_DEVICE_SUCCESS(NOLOCK) S ON S.DEVICE_MSG_UUID=P.DEVICE_MSG_UUID AND S.PUSH_TYPE = '01'     --LEFT OUTER JOIN pps.MPPS_PUSH_DEVICE_ITF ITF WITH(NOLOCK)ON DEVICE.PUSH_DEVICE_ID = ITF.PUSH_DEVICE_ID WHERE DEVICE.PPC_SEND_YN='Y'   AND DEVICE.PPC_PUSH_KEY = @ppcPushKey  AND DEVICE.REG_DT >= GETDATE()-@pushDataValidPeriod  -- AND DEVICE.REG_DT >= GETDATE()-0.1  AND S.DEVICE_MSG_UUID IS NULL  AND P."STATUS" IN (1001, 1002,1005,1006, 1009,1011, 1999,9997)  AND DEVICE.id > @lastDeviceId  --AND DATA.PPC_MODE=0  --AND (ITF."STATUS" IS NULL OR ITF."STATUS" NOT IN (2000,5555))  ORDER BY DEVICE.ID ASC  
+
+SyncDatabaseExecutor:524
+
+public List<PushItem> getPpcItemListByPushKey(int systemRegId, String pushKey, String lastSearchId, int pageSize, int pushDataValidPeriod) {
+        PushDao pushDao = (PushDao)this.sqlSession.getMapper(PushDao.class);
+        Map<String, Object> param = new HashMap();
+        param.put("systemId", systemRegId);
+        param.put("ppcPushKey", pushKey);
+        param.put("lastDeviceId", lastSearchId);
+        param.put("pageSize", pageSize);
+        param.put("pushDataValidPeriod", pushDataValidPeriod);
+        LOGGER.info("[PushDao][getPpcItemListByPushKey][HashMap]");
+        return pushDao.getPpcItemListByPushKey(param);
+    }
+
+com.tionsoft.pushserver.core.cache.GuavaPushCacheManager getPushItemsFromDbByPushKey
