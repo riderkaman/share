@@ -1,0 +1,4 @@
+Windows Server 2016
+Application Server : Intel(R) Xeon(R) Silver 4110CPU @ 2.10GHz, 2.10GHz (2개 프로세서) 64G
+DB Server : Intel(R) Xeon(R) Gold 6128 CPU @ 3.40GHz (Microsoft SQL Server 2016)
+Proxy Server : Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz (32G)
