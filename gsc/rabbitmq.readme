@@ -1,0 +1,21 @@
+-------------------------------------------------------------------------------------------------------------
+rabbitmq-server-3.7.9.exe
+otp_win64_21.1.exe
+-------------------------------------------------------------------------------------------------------------
+ERLANG_HOME = C:\Program Files\erl10.1
+-------------------------------------------------------------------------------------------------------------
+C:\Program Files\RabbitMQ Server\rabbitmq_server-3.7.9\sbin>rabbitmq-plugins enable rabbitmq_management
+C:\Program Files\RabbitMQ Server\rabbitmq_server-3.7.9\sbin>rabbitmq-plugins enable rabbitmq_mqtt
+-------------------------------------------------------------------------------------------------------------
+[C:\Users\Administrator\AppData\Roaming\RabbitMQ\advanced.config]
+-------------------------------------------------------------------------------------------------------------
+[{rabbit,        [{loopback_users, []},{tcp_listeners,    [5672]}]},
+ {rabbitmq_mqtt, [{allow_anonymous, true}
+ ,{default_user, "guest"}
+ ,{default_pass, "guest"}
+ , {tcp_listeners,    [1887]}]}
+].
+-------------------------------------------------------------------------------------------------------------
+C:\Program Files\RabbitMQ Server\rabbitmq_server-3.6.5\sbin\rabbitmq-service stop
+C:\Program Files\RabbitMQ Server\rabbitmq_server-3.6.5\sbin\rabbitmq-service start
+-------------------------------------------------------------------------------------------------------------
