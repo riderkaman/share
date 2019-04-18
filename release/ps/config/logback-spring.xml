@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%logger{36}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="system-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/system.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/system.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%t][%p][%F] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="director-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/director.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/director.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%t][%p][%F] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="error-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/error.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%t][%p][%F] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="push-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/push.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/push.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="cache-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/cache.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/cache.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="mq-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/mq.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/mq.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%p][%F] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ppc-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/ppc.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/ppc.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%t][%p][%F] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="db-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/db.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/db.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%t][%p][%F] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="tas-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/tas.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/tas.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%t][%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="sql-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/sql.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/sql.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}[%t][%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <logger name="system" level="info" additivity="false">
+        <appender-ref ref="system-appender"/>
+    </logger>
+
+    <logger name="ERROR" level="error" additivity="false">
+        <appender-ref ref="error-appender"/>
+    </logger>
+
+    <logger name="ERROR" level="error" additivity="false">
+        <appender-ref ref="error-appender"/>
+    </logger>
+
+    <logger name="push" level="info" additivity="false">
+        <appender-ref ref="push-appender"/>
+    </logger>
+
+    <logger name="com.happyhouse.servers.ps.service.rest" level="info" additivity="false">
+        <appender-ref ref="push-appender"/>
+    </logger>
+
+    <logger name="cache" level="debug" additivity="false">
+        <appender-ref ref="cache-appender"/>
+    </logger>
+
+    <logger name="mq" level="info" additivity="false">
+        <appender-ref ref="mq-appender"/>
+    </logger>
+
+    <logger name="director" level="info" additivity="false">
+        <appender-ref ref="mq-appender"/>
+    </logger>
+
+    <logger name="ppc" level="info" additivity="false">
+        <appender-ref ref="ppc-appender"/>
+    </logger>
+
+    <logger name="db" level="info" additivity="false">
+        <appender-ref ref="db-appender"/>
+    </logger>
+
+    <logger name="com.happyhouse.core.tas.filter.TasLoggingFilter" level="info"  additivity="false">
+        <appender-ref ref="tas-appender"/>
+    </logger>
+
+    <logger name="tas" level="info" additivity="false">
+        <appender-ref ref="tas-appender"/>
+    </logger>
+
+    <logger name="director" level="info" additivity="false">
+        <appender-ref ref="director-appender"/>
+    </logger>
+
+    <logger name="jdbc" level="off" additivity="false"/>
+    <logger name="jdbc.sqlonly" level="off" additivity="false"/>
+    <logger name="jdbc.audit" level="off" additivity="false"/>
+    <logger name="jdbc.resultset" level="off" additivity="false"/>
+    <logger name="jdbc.connection" level="off" additivity="false"/>
+
+    <logger name="jdbc.sqltiming" level="debug" additivity="false">
+        <appender-ref ref="sql-appender" />
+    </logger>
+
+    <logger name="jdbc.resultsettable" level="off" additivity="false">
+        <appender-ref ref="sql-appender" />
+    </logger>
+
+</configuration>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%t][%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="server" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/server.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/server.%i.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="tas" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/tas.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/tas.%i.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="access" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/access.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/access.%i.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="scheduler" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/scheduler.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/scheduler.%i.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/sql.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}/sql.%i.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%p] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+
+    <logger name="server" level="info" additivity="false">>
+        <appender-ref ref="server" />
+    </logger>
+
+    <logger name="tas" level="info" additivity="false">>
+        <appender-ref ref="tas" />
+    </logger>
+
+    <logger name="access" level="info" additivity="false">>
+        <appender-ref ref="access" />
+    </logger>
+
+    <logger name="scheduler" level="info" additivity="false">
+        <appender-ref ref="scheduler" />
+    </logger>
+
+    <logger name="jdbc" level="off" additivity="false"/>
+    <logger name="jdbc.sqlonly" level="off" additivity="false"/>
+    <logger name="jdbc.audit" level="off" additivity="false"/>
+    <logger name="jdbc.resultset" level="off" additivity="false"/>
+    <logger name="jdbc.connection" level="off" additivity="false"/>
+
+    <logger name="jdbc.sqltiming" level="debug" additivity="false">
+        <appender-ref ref="sql" />
+    </logger>
+
+    <logger name="jdbc.resultsettable" level="off" additivity="false">
+        <appender-ref ref="sql" />
+    </logger>
+
+
+</configuration>

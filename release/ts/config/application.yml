@@ -1,0 +1,58 @@
+ts:
+  name: ts-1
+  ip: 127.0.0.1
+  tas:
+    port: 15007
+  web:
+    port: 8081
+  hazelcast:
+    port: 5701
+    group:
+      name: gsc
+      members: 127.0.0.1:5702
+
+database:
+  name: mssql
+  driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  url: jdbc:log4jdbc:sqlserver://10.1.3.132:1432;DatabaseName=GSC
+  #username: pbt
+  #password: pbt123!@#
+  username: ENC(jdwbvGNr9fExRqhziX2d+w==)
+  password: ENC(rYqRrhD2p5Q69g+FFdW5hfaria/gYQ59)
+  pool-init-size: 5
+  pool-max-size: 10
+
+ifs:
+  tapi:
+    ip: 117.52.82.89
+    port: 9999
+  push:
+    ip: 10.1.3.91
+    port: 8091
+    path: /ps/rest
+  document-viewer:
+    ip: 10.1.3.131
+    port: 12600
+  url-preview:
+    ip: 10.1.3.91
+    port: 30007
+  file:
+    public:
+      ip: 106.255.240.211
+      port: 31007
+    private:
+      ip: 106.255.240.211
+      port: 31007
+    dir:
+      base: /app/gsc/ms/webfiles
+  file-service: # added by shin kwan young
+    public: # 이중화시 L4의 public ip/port 정보
+      ip: 106.255.240.210
+      port: 15914
+    private: # 이중화시 L4의 private ip/port 정보
+      ip: 10.1.3.91
+      port: 8087
+
+scheduler:
+  profile-image-crop:
+    cron-expression: "0 0 19 * * ?"
